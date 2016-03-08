@@ -13,4 +13,4 @@ RUN apt-get update \
     && /opt/logstash/bin/plugin install logstash-patterns-core \
     && /opt/logstash/bin/plugin install logstash-output-elasticsearch \
     && /usr/bin/jruby -S gem install manticore -v '0.5.3' \
-    && /usr/bin/jruby -S gem install jruby-httpclient
+    && /usr/bin/jruby -S gem install jruby-httpclient-4
