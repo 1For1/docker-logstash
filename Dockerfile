@@ -9,7 +9,7 @@ RUN ln -sf /usr/local/rvm/rubies/jruby-*/bin/jruby /usr/bin/jruby
 
 RUN apt-get update \
     && apt-get install sudo \
-    && /usr/bin/jruby -S gem install manticore -v '0.5.3' \
     && /opt/logstash/bin/plugin update \
     && /opt/logstash/bin/plugin install logstash-patterns-core \
-    && /opt/logstash/bin/plugin install logstash-output-elasticsearch
+    && /opt/logstash/bin/plugin install logstash-output-elasticsearch \
+    && /usr/bin/jruby -S gem install manticore -v '0.5.3'
