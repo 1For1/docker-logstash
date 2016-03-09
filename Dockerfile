@@ -25,4 +25,5 @@ RUN cp httpcomponents-client-4.5/lib/*.jar org/apache/httpcomponents/httpclient/
 RUN rm -rf httpcomponents-client-4.5
 
 WORKDIR /
-ENTRYPOINT /opt/logstash/bin/logstash
+ENTRYPOINT /bin/bash
+CMD ["logstash", "agent"]
