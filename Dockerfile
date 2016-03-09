@@ -19,6 +19,7 @@ RUN apt-get update \
     && tar -xzvf httpcomponents-client-4.5-bin.tar.gz
 
 RUN echo "++++++++ MKDIR ++++++++"
+WORKDIR /opt/logstash/vendor/jruby/lib/ruby/shared
 RUN mkdir -p org/apache/httpcomponents/httpclient/4.5
 RUN cp httpcomponents-client-4.5/lib/*.jar org/apache/httpcomponents/httpclient/4.5
 RUN rm -rf httpcomponents-client-4.5
