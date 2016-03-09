@@ -24,6 +24,6 @@ RUN mkdir -p org/apache/httpcomponents/httpclient/4.5
 RUN cp httpcomponents-client-4.5/lib/*.jar org/apache/httpcomponents/httpclient/4.5
 RUN rm -rf httpcomponents-client-4.5
 
+ADD docker-entrypoint.sh /
+
 WORKDIR /
-ENTRYPOINT /bin/bash
-CMD ["logstash", "agent"]
