@@ -60,3 +60,5 @@ RUN cp httpcomponents-client-4.5/lib/*.jar org/apache/httpcomponents/httpclient/
 RUN rm -rf httpcomponents-client-4.5
 
 WORKDIR /
+
+ADD docker-entrypoint.sh /
