@@ -35,6 +35,9 @@ RUN set -x \
 
 ENV PATH /opt/logstash/bin:$PATH
 
+
+ADD docker-entrypoint.sh /
+
 #    && gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 \
 #RUN curl -sSL https://get.rvm.io | bash -s stable --ruby=jruby
 
@@ -61,4 +64,6 @@ RUN rm -rf httpcomponents-client-4.5
 
 WORKDIR /
 
-ADD docker-entrypoint.sh /
+RUN chmod a+x /docker-entrypoint.sh
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
