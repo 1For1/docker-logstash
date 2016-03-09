@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
-
-
+echo "----- Starting LOGSTASH -------"
 logstash agent -f /etc/logstash/conf.d/logstash.conf
+
+echo "------ Finished LOGSTASH ------"
