@@ -67,3 +67,4 @@ WORKDIR /
 RUN chmod a+x /docker-entrypoint.sh
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["logstash", "agent"]
