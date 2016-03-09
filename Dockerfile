@@ -14,9 +14,11 @@ RUN apt-get update \
     && /opt/logstash/bin/plugin install logstash-output-elasticsearch \
     && /usr/bin/jruby -S gem install manticore -v '0.5.3' \
     && /usr/bin/jruby -S gem install jruby-httpclient \
-    && cd /opt/logstash/vendor/jruby/lib/ruby/shared \
     && curl http://apache.mirrors.hoobly.com//httpcomponents/httpclient/binary/httpcomponents-client-4.5-bin.tar.gz > /opt/logstash/vendor/jruby/lib/ruby/shared/httpcomponents-client-4.5-bin.tar.gz \
-    && tar -xzvf httpcomponents-client-4.5-bin.tar.gz \
-    && mkdir -p org/apache/httpcomponents/httpclient/4.5 \
-    && cp httpcomponents-client-4.5/lib/*.jar httpclient-4.5.jar \
-    && rm -rf httpcomponents-client-4.5
+    && cd /opt/logstash/vendor/jruby/lib/ruby/shared \
+    && tar -xzvf httpcomponents-client-4.5-bin.tar.gz
+
+RUN echo "++++++++ MKDIR ++++++++"
+RUN mkdir -p org/apache/httpcomponents/httpclient/4.5
+RUN cp httpcomponents-client-4.5/lib/*.jar httpclient-4.5.jar
+RUN rm -rf httpcomponents-client-4.5
