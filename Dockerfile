@@ -23,33 +23,38 @@ RUN set -x \
 
 RUN apt-key adv --keyserver ha.pool.sks-keyservers.net --recv-keys 46095ACC8548582C1A2699A9D27D666CD88E42B4
 
-ENV LOGSTASH_MAJOR 2.2
-ENV LOGSTASH_VERSION 1:2.2.2-1
+ENV LOGSTASH_MAJOR 2.3
+ENV LOGSTASH_VERSION 1:2.3.2-1
 
 RUN echo "deb http://packages.elasticsearch.org/logstash/${LOGSTASH_MAJOR}/debian stable main" > /etc/apt/sources.list.d/logstash.list
-
-RUN set -x \
-	&& apt-get update \
-	&& apt-get install -y --no-install-recommends logstash=$LOGSTASH_VERSION \
-	&& rm -rf /var/lib/apt/lists/*
-
-ENV PATH /opt/logstash/bin:$PATH
-
-
-ADD docker-entrypoint.sh /
-
-#    && gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 \
-#RUN curl -sSL https://get.rvm.io | bash -s stable --ruby=jruby
 
 RUN gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
 RUN curl -sSL https://get.rvm.io | bash -s stable --ruby=jruby
 RUN ln -sf /usr/local/rvm/rubies/jruby-*/bin/jruby /usr/bin/jruby
 
-RUN apt-get update \
-    && apt-get install sudo \
-    && /opt/logstash/bin/plugin update \
-    && /opt/logstash/bin/plugin install logstash-patterns-core \
-    && /opt/logstash/bin/plugin install logstash-output-elasticsearch \
+RUN set -x \
+	&& apt-get update \
+	&& apt-get install -y --no-install-recommends logstash=$LOGSTASH_VERSION  \
+	&& apt-get install -y sudo expect \
+	&& rm -rf /var/lib/apt/lists/*
+
+ENV PATH /opt/logstash/bin:$PATH
+
+
+ADD docker-entrypoint.sh expect.logstash.update.conf /
+
+#    && gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 \
+#RUN curl -sSL https://get.rvm.io | bash -s stable --ruby=jruby
+
+
+
+#     && echo y | /opt/logstash/bin/logstash-plugin install logstash-codec-collectd \
+#
+
+RUN \
+    expect -f expect.logstash.update.conf \
+    && /opt/logstash/bin/logstash-plugin install logstash-patterns-core \
+    && /opt/logstash/bin/logstash-plugin install logstash-output-elasticsearch \
     && /usr/bin/jruby -S gem install manticore -v '0.5.3' \
     && /usr/bin/jruby -S gem install jruby-httpclient \
     && curl http://apache.mirrors.hoobly.com//httpcomponents/httpclient/binary/httpcomponents-client-4.5-bin.tar.gz > /opt/logstash/vendor/jruby/lib/ruby/shared/httpcomponents-client-4.5-bin.tar.gz \
